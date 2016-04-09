@@ -53,9 +53,9 @@ Give it a try!
 ### **WHAT** IS FABLE?
 
 - F# to JS compiler
-- Framework agnostic
-- Plugin system
 - Source maps
+- [Plugin system](https://github.com/fsprojects/Fable/blob/master/docs/plugins.md)
+- Framework agnostic
 - Batteries charged: F# core library and some .NET BCL
 
 
@@ -239,9 +239,9 @@ delegating the reponsibility of code parsing and generation.
 
 Fable adds its own AST for internal operations:
 
-- Optimizations
-- Call replacement
-- Plugin system
+- [Optimizations](https://github.com/fsprojects/Fable/blob/master/src/fable-fsharp/FSharp2Fable.fs)
+- [Call replacement](https://github.com/fsprojects/Fable/blob/master/src/fable-fsharp/Replacements.fs)
+- [Plugin system](https://github.com/fsprojects/Fable/blob/master/docs/plugins.md)
 
 
 ***
@@ -249,7 +249,7 @@ Fable adds its own AST for internal operations:
 
 ### **HOW** CAN I USE FABLE?
 
-Hello World
+Fable can be downloaded from [npm](https://www.npmjs.com/package/fable-compiler)
 
     [lang=shell]
     mkdir temp
@@ -265,9 +265,48 @@ Hello World
 ---
 
 
+### Compiler options
+
+[Tailor compilation](https://github.com/fsprojects/Fable/blob/master/docs/compiling.md#cli-options) to your needs:
+
+![CLI options](images/cli.png)
+
+---
+
+
+### [fableconfig.json](https://github.com/fsprojects/Fable/blob/master/docs/compiling.md#fableconfigjson)
+
+    [lang=json]
+    {
+        "module": "commonjs",
+        "outDir": "out",
+        "sourceMaps": true,
+        "projFile": "src/Fable.Samples.React.fsproj",
+        "babelPlugins": ["transform-runtime"],
+        "scripts": {
+            "prebuild": "npm install",
+            "postbuild": "node node_modules/webpack/bin/webpack"
+        },
+        "targets": {
+            "debug": {
+                "watch": true,
+                "symbols": ["DEBUG"],
+                "scripts": {
+                    "postbuild": "node out/server"
+                }
+            }
+        }
+    }
+
+
+---
+
+
 ### DEMO
 
 Console application
+
+https://github.com/fsprojects/Fable/blob/master/samples/node/console/index.fs
 
 
 ---
@@ -386,8 +425,7 @@ Use `Emit` attribute to emit JS code directly
 
 ### FOREIGN INTERFACES
 
-Define foreign interfaces easily to get the benefits of static checking and intellisense.
-
+Define foreign interfaces easily to get the benefits of static checking and Intellisense
 
     [<Import("*","string_decoder")>]
     module string_decoder =
@@ -398,24 +436,53 @@ Define foreign interfaces easily to get the benefits of static checking and inte
         let StringDecoder: NodeStringDecoder = failwith "JS only"
 
 
-Use `Import` attribute to import external JS modules in ES2015 fashion.
+Use `Import` attribute to [import external JS modules in ES2015 fashion](https://github.com/fsprojects/Fable/blob/master/docs/interacting.md#import-attribute)
 
 ---
 - data-transition:concave
 - class:line-height-150
 
 
-- Native JS, Browser and Node interfaces are included in `fable-core` package
-- More definitions can be found in npm: `fable-import-***`
-- A TypeScript parser (still in development) is available in npm: `ts2fable` 
+- Native JS, Browser and Node interfaces are included in [fable-core](https://www.npmjs.com/package/fable-core)
+- More definitions can be found in npm: [fable-import-xxx](https://www.npmjs.com/search?q=fable-import)
+- A TypeScript parser (still in development) is also available: [ts2fable](https://www.npmjs.com/package/ts2fable) 
 
 
 ***
+
+### DEMO
+
+Node static server
+
+https://github.com/fsprojects/Fable/blob/master/samples/node/server/index.fsx
+
+---
+
+### DEMO
+
+Debugging a [node express server](https://github.com/fsprojects/Fable/blob/master/samples/node/express/index.fsx) with [VS Code](http://code.visualstudio.com/docs/editor/debugging)
+
+    [lang=json]
+    {
+        "name": "Launch Node",
+        "type": "node",
+        "request": "launch",
+        "program": "${workspaceRoot}/samples/node/express/index.fsx",
+        "outDir": "${workspaceRoot}/samples/node/express/out",
+        "sourceMaps": true,
+    }
+
+
+---
 
 
 ### DEMO
 
 Front end applications with JS frameworks: [Vue](http://vuejs.org), [React](http://facebook.github.io/react/)
+
+https://github.com/fsprojects/Fable/tree/master/samples/browser/todomvc
+
+https://github.com/fsprojects/Fable/tree/master/samples/browser/react
 
 
 ***
@@ -423,14 +490,14 @@ Front end applications with JS frameworks: [Vue](http://vuejs.org), [React](http
 
 ### FABLE IN NUMBERS
 
-- Currently in beta: v0.2.1 (soon v1.0.0)
-- >600 unit tests
-- >800 lines of documentation
-- >4500 lines of code of compiler core
-- 4 months of development (but building on FunScript experience)
-- 5th place after 2 months in fsprojects (Github stars)
+- Currently in beta: [v0.2.2](https://www.npmjs.com/package/fable-compiler) (soon v1.0.0)
+- >600 [unit tests](https://github.com/fsprojects/Fable/tree/master/src/tests)
+- >800 lines of [documentation](https://github.com/fsprojects/Fable/tree/master/docs)
+- >4500 lines of code of [compiler core](https://github.com/fsprojects/Fable/tree/master/src/fable-fsharp)
+- [4 months of development](https://github.com/fsprojects/Fable/graphs/contributors) (but building on FunScript experience)
+- 5th place after 2 months in [fsprojects](http://fsprojects.github.io) (Github stars)
 - >300 commits, >170 stars, 12 contributors
-- 6 packages in npm: compiler, core lib, bindings, TypeScript parser
+- 6 packages in [npm](https://www.npmjs.com/~alfonsogarciacaro): compiler, core lib, bindings, TypeScript parser
 - 2500 downloads last month
 - 10,000 users 2016 Q4 (1)
 - 1,000,000 downloads 2016 Q4 (1)

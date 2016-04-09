@@ -1,0 +1,651 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Fable, the what, the why and the how</title>
+    <meta name="description" content="Introduction to Fable, F# to JS compiler">
+    <meta name="author" content="Alfonso Garcia-Caro">
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <script src="//code.jquery.com/jquery-1.8.0.js"></script>
+    <script src="//code.jquery.com/ui/1.8.23/jquery-ui.js"></script>
+    <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.2.1/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.2.1/css/bootstrap-combined.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/reveal.css">
+    <link rel="stylesheet" href="css/theme/night.css" id="theme">
+    <link type="text/css" rel="stylesheet" href="fsharp.formatting/styles/style.css" />
+    <link type="text/css" rel="stylesheet" href="fsharp.formatting/styles/deedle.css" />
+    <link type="text/css" rel="stylesheet" href="css/custom.css" />
+    <script src="fsharp.formatting/styles/tips.js" type="text/javascript"></script>
+    <!-- For syntax highlighting -->
+    <link rel="stylesheet" href="lib/css/zenburn.css">
+    <link rel="stylesheet" href="css/fsreveal.css">
+    <!-- If the query includes 'print-pdf', include the PDF print sheet -->
+    <script>
+			if( window.location.search.match( /print-pdf/gi ) ) {
+				var link = document.createElement( 'link' );
+				link.rel = 'stylesheet';
+				link.type = 'text/css';
+				link.href = 'css/print/pdf.css';
+				document.getElementsByTagName( 'head' )[0].appendChild( link );
+			}
+    </script>
+    <!--[if lt IE 9]>
+    <script src="lib/js/html5shiv.js"></script>
+    <![endif]-->
+    <script language="javascript" type="text/javascript">
+        function init()
+        {
+            websocket = new WebSocket("ws://"+window.location.host+"/websocket");
+            websocket.onmessage = function(evt) { location.reload(); };
+        }
+        window.addEventListener("load", init, false);
+    </script>
+</head>
+<body>
+    <div class="reveal">
+        <div class="tip" id="fs1">module String<br /><br />from Microsoft.FSharp.Core</div>
+<div class="tip" id="fs2">Multiple items<br />type Format&lt;&#39;Printer,&#39;State,&#39;Residue,&#39;Result&gt; = PrintfFormat&lt;&#39;Printer,&#39;State,&#39;Residue,&#39;Result&gt;<br /><br />Full name: Microsoft.FSharp.Core.Format&lt;_,_,_,_&gt;<br /><br />--------------------<br />type Format&lt;&#39;Printer,&#39;State,&#39;Residue,&#39;Result,&#39;Tuple&gt; = PrintfFormat&lt;&#39;Printer,&#39;State,&#39;Residue,&#39;Result,&#39;Tuple&gt;<br /><br />Full name: Microsoft.FSharp.Core.Format&lt;_,_,_,_,_&gt;</div>
+<div class="tip" id="fs3">val sprintf : format:Printf.StringFormat&lt;&#39;T&gt; -&gt; &#39;T<br /><br />Full name: Microsoft.FSharp.Core.ExtraTopLevelOperators.sprintf</div>
+<div class="tip" id="fs4">val ( Util.reverse works ) : unit -&gt; &#39;a<br /><br />Full name: index.( Util.reverse works )</div>
+<div class="tip" id="fs5">val res : obj</div>
+<div class="tip" id="fs6">namespace Microsoft.FSharp.Core</div>
+<div class="tip" id="fs7">val printfn : format:Printf.TextWriterFormat&lt;&#39;T&gt; -&gt; &#39;T<br /><br />Full name: Microsoft.FSharp.Core.ExtraTopLevelOperators.printfn</div>
+<div class="tip" id="fs8">val x : obj<br /><br />Full name: index.x</div>
+<div class="tip" id="fs9">val y : obj<br /><br />Full name: index.y</div>
+<div class="tip" id="fs10">val data : obj<br /><br />Full name: index.data</div>
+<div class="tip" id="fs11">union case Option.None: Option&lt;&#39;T&gt;</div>
+<div class="tip" id="fs12">val add : x:int -&gt; y:string -&gt; float<br /><br />Full name: index.add</div>
+<div class="tip" id="fs13">val x : int</div>
+<div class="tip" id="fs14">Multiple items<br />val int : value:&#39;T -&gt; int (requires member op_Explicit)<br /><br />Full name: Microsoft.FSharp.Core.Operators.int<br /><br />--------------------<br />type int = int32<br /><br />Full name: Microsoft.FSharp.Core.int<br /><br />--------------------<br />type int&lt;&#39;Measure&gt; = int<br /><br />Full name: Microsoft.FSharp.Core.int&lt;_&gt;</div>
+<div class="tip" id="fs15">val y : string</div>
+<div class="tip" id="fs16">Multiple items<br />val string : value:&#39;T -&gt; string<br /><br />Full name: Microsoft.FSharp.Core.Operators.string<br /><br />--------------------<br />type string = System.String<br /><br />Full name: Microsoft.FSharp.Core.string</div>
+<div class="tip" id="fs17">Multiple items<br />val float : value:&#39;T -&gt; float (requires member op_Explicit)<br /><br />Full name: Microsoft.FSharp.Core.Operators.float<br /><br />--------------------<br />type float = System.Double<br /><br />Full name: Microsoft.FSharp.Core.float<br /><br />--------------------<br />type float&lt;&#39;Measure&gt; = float<br /><br />Full name: Microsoft.FSharp.Core.float&lt;_&gt;</div>
+<div class="tip" id="fs18">val failwith : message:string -&gt; &#39;T<br /><br />Full name: Microsoft.FSharp.Core.Operators.failwith</div>
+<div class="tip" id="fs19">Multiple items<br />type Test =<br />&#160;&#160;new : unit -&gt; Test<br />&#160;&#160;member Invoke : args:int [] -&gt; obj<br />&#160;&#160;member Item : float<br />&#160;&#160;member Item : float with set<br /><br />Full name: index.Test<br /><br />--------------------<br />new : unit -&gt; Test</div>
+<div class="tip" id="fs20">member Test.Invoke : args:int [] -&gt; obj<br /><br />Full name: index.Test.Invoke</div>
+<div class="tip" id="fs21">val args : int []</div>
+<div class="tip" id="fs22">type obj = System.Object<br /><br />Full name: Microsoft.FSharp.Core.obj</div>
+<div class="tip" id="fs23">val __ : Test</div>
+<div class="tip" id="fs24">member Test.Item : float with set<br /><br />Full name: index.Test.Item</div>
+<div class="tip" id="fs25">val set : elements:seq&lt;&#39;T&gt; -&gt; Set&lt;&#39;T&gt; (requires comparison)<br /><br />Full name: Microsoft.FSharp.Core.ExtraTopLevelOperators.set</div>
+<div class="tip" id="fs26">val v : float</div>
+<div class="tip" id="fs27">type unit = Unit<br /><br />Full name: Microsoft.FSharp.Core.unit</div>
+<div class="tip" id="fs28">module string_decoder<br /><br />from index</div>
+<div class="tip" id="fs29">type NodeStringDecoder =<br />&#160;&#160;interface<br />&#160;&#160;&#160;&#160;abstract member detectIncompleteChar : buffer:&#39;a0 -&gt; float<br />&#160;&#160;&#160;&#160;abstract member write : buffer:&#39;a0 -&gt; &#39;a1<br />&#160;&#160;end<br /><br />Full name: index.string_decoder.NodeStringDecoder</div>
+<div class="tip" id="fs30">abstract member NodeStringDecoder.write : buffer:&#39;a0 -&gt; &#39;a1<br /><br />Full name: index.string_decoder.NodeStringDecoder.write</div>
+<div class="tip" id="fs31">abstract member NodeStringDecoder.detectIncompleteChar : buffer:&#39;a0 -&gt; float<br /><br />Full name: index.string_decoder.NodeStringDecoder.detectIncompleteChar</div>
+<div class="tip" id="fs32">val StringDecoder : NodeStringDecoder<br /><br />Full name: index.string_decoder.StringDecoder</div>
+
+        <!-- Any section element inside of this container is displayed as a slide -->
+        <div class="slides">
+            <section >
+<h3>Fable: the what, the why and the how</h3>
+<p>Bringing together the F# and JS worlds</p>
+<div>
+  <img style="display: inline-block;vertical-align:middle" src="images/fsharp.png" />
+  <span style="white-space: pre">   meets   </span>
+  <img style="display: inline-block;vertical-align:middle" src="images/js.png" />
+</div>
+</section>
+<section >
+<section >
+<h3><strong>WHO</strong> IS MAKING THIS PRESENTATION?</h3>
+<p>Alfonso Garcia-Caro</p>
+<ul>
+<li>Degree in Linguistics</li>
+<li>Lived in Japan, Germany (back in Spain now)</li>
+<li>5 years .NET experience</li>
+<li>2 years F# and JS experience</li>
+<li>
+Developed desktop, mobile and web apps for videogame,
+green energy and education industries
+</li>
+</ul>
+<p><div style="text-align: right">
+<p>Ping me! @alfonsogcnunez</p>
+</div></p>
+</section>
+<section >
+<p><img src="images/toggl.png" alt="toggl.com" /></p>
+<p>Working at <a href="https://toggl.com">toggl.com</a>, the insanely simple time tracking app</p>
+<p>Give it a try!</p>
+</section>
+</section>
+<section >
+<section >
+<h3><strong>WHAT</strong> IS FABLE?</h3>
+<ul>
+<li>F# to JS compiler</li>
+<li>Source maps</li>
+<li><a href="https://github.com/fsprojects/Fable/blob/master/docs/plugins.md">Plugin system</a></li>
+<li>Framework agnostic</li>
+<li>Batteries charged: F# core library and some .NET BCL</li>
+</ul>
+</section>
+<section >
+<h3>NOT AND AD-HOC LANGUAGE</h3>
+<ul>
+<li>F# is a general purpose language mainly targeting .NET</li>
+<li>Not crafted specifically to compile to JS, like Dart, TypeScript or Elm</li>
+<li>Allows you to reuse your knowledge: <strong>semantics</strong>, <strong>tooling</strong> and <strong>APIs</strong></li>
+</ul>
+</section>
+<section >
+<h3>BUT BEHAVES LIKE ONE</h3>
+<ul>
+<li>No runtime</li>
+<li>Compiles to clean JS code</li>
+<li>Great interoperability with JS libraries</li>
+<li>Adheres to standard practices and workflows</li>
+<li>Compatible with JS developments tools: <a href="http://babeljs.io">Babel</a>, <a href="https://www.npmjs.com">npm</a>, <a href="https://webpack.github.io">WebPack</a></li>
+</ul>
+</section>
+</section>
+<section >
+<section >
+<h3><strong>WHY</strong> FABLE?</h3>
+<h4>JavaScript is evolving at rapid pace, do we need a new language?</h4>
+<p class="fragment fade-in">
+ES2015 adds many great features and JS development tools keep getting better and better
+</p>
+<div class="fragment fade-in">
+<p>But there are still things some programmers miss:</p>
+<ul>
+<li>Static typing</li>
+<li>Great editor support out of the box</li>
+<li>Comprehensive core library</li>
+</div>
+<p class="fragment fade-in">
+F# brings this and a couple more features...
+</p>
+</section>
+<section class="line-height-150">
+<ul>
+<li>REPL</li>
+<li>Intellisense</li>
+<li>Type inference</li>
+<li>Custom operators</li>
+<li>Whitespace indentation (optional)</li>
+<li>Expression based programming</li>
+<li>Pattern Matching</li>
+<li>Active Patterns</li>
+<li>Immutable by default</li>
+<li>Partial application / Pipelines</li>
+<li>Functional core library (LINQ on steroids!)</li>
+</ul>
+</section>
+<section class="line-height-150">
+<ul>
+<li>Observables</li>
+<li>String formatting</li>
+<li>Structural comparison</li>
+<li>List, array and iterable comprehensions</li>
+<li>Generics, unions, records and tuples</li>
+<li>Type aliases</li>
+<li>DSL embedded in the language</li>
+<li>Typed-stateless Async programming</li>
+</ul>
+</section>
+<section class="line-height-150">
+<ul>
+<li>OOP: Inheritance, interfaces, abstract classes</li>
+<li>Custom computation expressions</li>
+<li>Overloading, type extensions</li>
+<li>Type providers (coming to Fable)</li>
+<li>Units of measure</li>
+<li>Circular dependency restriction</li>
+<li>Compiler directives</li>
+<li>An excuse for being condescendant with non-functional programming</li>
+<li>Don Syme retweeting you!</li>
+</ul>
+<p class="fragment fade-in">
+And the killer feature...
+</p>
+</section>
+<section >
+<h3>LEFT PADDING OUT OF THE BOX!</h3>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l"> 1: </span>
+<span class="l"> 2: </span>
+<span class="l"> 3: </span>
+<span class="l"> 4: </span>
+<span class="l"> 5: </span>
+<span class="l"> 6: </span>
+<span class="l"> 7: </span>
+<span class="l"> 8: </span>
+<span class="l"> 9: </span>
+<span class="l">10: </span>
+<span class="l">11: </span>
+<span class="l">12: </span>
+<span class="l">13: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="c">// Explicit</span>
+<span class="s">&quot;3.14&quot;</span><span class="o">.</span><span class="f">PadLeft</span>(<span class="n">10</span>)                    <span class="c">// &quot;      3.14&quot;</span>
+<span class="s">&quot;3.14&quot;</span><span class="o">.</span><span class="f">PadRight</span>(<span class="n">10</span>)                   <span class="c">// &quot;3.14      &quot;</span>
+<span class="s">&quot;22&quot;</span><span class="o">.</span><span class="f">PadLeft</span>(<span class="n">10</span>, <span class="s">&#39;0&#39;</span>)                 <span class="c">// &quot;0000000022&quot;</span>
+
+<span class="c">// With .NET string formatting</span>
+<span onmouseout="hideTip(event, 'fs1', 1)" onmouseover="showTip(event, 'fs1', 1)" class="i">String</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs2', 2)" onmouseover="showTip(event, 'fs2', 2)" class="i">Format</span>(<span class="s">&quot;{0,10:F1}&quot;</span>, <span class="n">3.14</span>)      <span class="c">// &quot;       3.1&quot;</span>
+<span onmouseout="hideTip(event, 'fs1', 3)" onmouseover="showTip(event, 'fs1', 3)" class="i">String</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs2', 4)" onmouseover="showTip(event, 'fs2', 4)" class="i">Format</span>(<span class="s">&quot;{0,-10:F1}&quot;</span>, <span class="n">3.14</span>)     <span class="c">// &quot;3.1       &quot;</span>
+
+<span class="c">// With F# typed string formatting</span>
+<span onmouseout="hideTip(event, 'fs3', 5)" onmouseover="showTip(event, 'fs3', 5)" class="f">sprintf</span> <span class="s">&quot;</span><span class="pf">%10.1f</span><span class="s">&quot;</span> <span class="n">3.14</span>                 <span class="c">// &quot;       3.1&quot;</span>
+<span onmouseout="hideTip(event, 'fs3', 6)" onmouseover="showTip(event, 'fs3', 6)" class="f">sprintf</span> <span class="s">&quot;</span><span class="pf">%-10.1f</span><span class="s">&quot;</span> <span class="n">3.14</span>                <span class="c">// &quot;3.1       &quot;</span>
+<span onmouseout="hideTip(event, 'fs3', 7)" onmouseover="showTip(event, 'fs3', 7)" class="f">sprintf</span> <span class="s">&quot;</span><span class="pf">%+010i</span><span class="s">&quot;</span> <span class="n">22</span>                   <span class="c">// &quot;+000000022&quot;</span>
+</code></pre></td>
+</tr>
+</table>
+</section>
+</section>
+<section >
+<section data-transition="zoom">
+<h3><strong>HOW</strong> DOES FABLE WORK?</h3>
+<p>This is what a day in the life of a compiler looks like:</p>
+<ol>
+<li>Parse and validate text into an Abstract Syntax Tree</li>
+<li>Make necessary transformations on that AST</li>
+<li>Generate new code from the AST: assembly, bytecode, JS...</li>
+</ol>
+</section>
+<section data-transition="zoom">
+<p>As Fable works with known languages it can take advantage
+of existing tools.</p>
+<p>F# compiler, like Roslyn, can be used as a service:
+we completed the first step <strong>for free</strong>!</p>
+<p>Unfortunately JS is not a compiled language</p>
+<p class="fragment fade-in">
+...or is it?
+</p>
+</section>
+<section data-transition="zoom">
+<p><img src="images/babel.png" alt="Babel" /></p>
+<p>Enter Babel</p>
+</section>
+<section data-transition="zoom">
+<p><img src="images/ast1.png" alt="F# and JS compilation" /></p>
+<p>Babel generates an AST from ES2015 code,
+applies transformations with a pluggable system
+and generates ES5 JavaScript code.</p>
+</section>
+<section data-transition="zoom">
+<p><img src="images/ast2.png" alt="F# to JS compilation" /></p>
+<p>Fable builds a bridge between F# and Babel AST
+delegating the reponsibility of code parsing and generation.</p>
+</section>
+<section data-transition="zoom">
+<p>Fable adds its own AST for internal operations:</p>
+<ul>
+<li><a href="https://github.com/fsprojects/Fable/blob/master/src/fable-fsharp/FSharp2Fable.fs">Optimizations</a></li>
+<li><a href="https://github.com/fsprojects/Fable/blob/master/src/fable-fsharp/Replacements.fs">Call replacement</a></li>
+<li><a href="https://github.com/fsprojects/Fable/blob/master/docs/plugins.md">Plugin system</a></li>
+</ul>
+</section>
+</section>
+<section >
+<section >
+<h3><strong>HOW</strong> CAN I USE FABLE?</h3>
+<p>Fable can be downloaded from <a href="https://www.npmjs.com/package/fable-compiler">npm</a></p>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
+<span class="l">2: </span>
+<span class="l">3: </span>
+<span class="l">4: </span>
+<span class="l">5: </span>
+<span class="l">6: </span>
+<span class="l">7: </span>
+<span class="l">8: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip"><code lang="shell">mkdir temp
+cd temp
+npm init --yes
+npm install -g fable-compiler
+npm install --save fable-core
+echo "printfn \"Hello World\"" &gt; hello.fsx
+fable hello.fsx
+node hello.js
+</code></pre></td></tr></table>
+</section>
+<section >
+<h3>Compiler options</h3>
+<p><a href="https://github.com/fsprojects/Fable/blob/master/docs/compiling.md#cli-options">Tailor compilation</a> to your needs:</p>
+<p><img src="images/cli.png" alt="CLI options" /></p>
+</section>
+<section >
+<h3><a href="https://github.com/fsprojects/Fable/blob/master/docs/compiling.md#fableconfigjson">fableconfig.json</a></h3>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l"> 1: </span>
+<span class="l"> 2: </span>
+<span class="l"> 3: </span>
+<span class="l"> 4: </span>
+<span class="l"> 5: </span>
+<span class="l"> 6: </span>
+<span class="l"> 7: </span>
+<span class="l"> 8: </span>
+<span class="l"> 9: </span>
+<span class="l">10: </span>
+<span class="l">11: </span>
+<span class="l">12: </span>
+<span class="l">13: </span>
+<span class="l">14: </span>
+<span class="l">15: </span>
+<span class="l">16: </span>
+<span class="l">17: </span>
+<span class="l">18: </span>
+<span class="l">19: </span>
+<span class="l">20: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip"><code lang="json">{
+    "module": "commonjs",
+    "outDir": "out",
+    "sourceMaps": true,
+    "projFile": "src/Fable.Samples.React.fsproj",
+    "babelPlugins": ["transform-runtime"],
+    "scripts": {
+        "prebuild": "npm install",
+        "postbuild": "node node_modules/webpack/bin/webpack"
+    },
+    "targets": {
+        "debug": {
+            "watch": true,
+            "symbols": ["DEBUG"],
+            "scripts": {
+                "postbuild": "node out/server"
+            }
+        }
+    }
+}
+</code></pre></td></tr></table>
+</section>
+<section >
+<h3>DEMO</h3>
+<p>Console application</p>
+<p><a href="https://github.com/fsprojects/Fable/blob/master/samples/node/console/index.fs">https://github.com/fsprojects/Fable/blob/master/samples/node/console/index.fs</a></p>
+</section>
+<section >
+<h3>TESTING</h3>
+<p>NUnit or Visual Studio tests can be compiled to JS too</p>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
+<span class="l">2: </span>
+<span class="l">3: </span>
+<span class="l">4: </span>
+<span class="l">5: </span>
+<span class="l">6: </span>
+<span class="l">7: </span>
+<span class="l">8: </span>
+<span class="l">9: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="prep">#r</span> <span class="s">&quot;../../../packages/NUnit/lib/nunit.framework.dll&quot;</span>
+<span class="prep">#load</span> <span class="s">&quot;util/util.fs&quot;</span>
+
+<span class="k">open</span> <span class="i">NUnit</span><span class="o">.</span><span class="i">Framework</span>
+
+[&lt;<span class="i">Test</span>&gt;]
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs4', 8)" onmouseover="showTip(event, 'fs4', 8)" class="f">``Util.reverse works``</span>() <span class="o">=</span>
+    <span class="k">let</span> <span onmouseout="hideTip(event, 'fs5', 9)" onmouseover="showTip(event, 'fs5', 9)" class="i">res</span> <span class="o">=</span> <span class="i">Util</span><span class="o">.</span><span class="i">reverse</span> <span class="s">&quot;yllihP&quot;</span>
+    <span class="i">Assert</span><span class="o">.</span><span class="i">AreEqual</span>(<span class="s">&quot;Philly&quot;</span>, <span onmouseout="hideTip(event, 'fs5', 10)" onmouseover="showTip(event, 'fs5', 10)" class="i">res</span>)
+</code></pre></td>
+</tr>
+</table>
+</section>
+<section >
+<p>Compile the tests using NUnit plugin and run them with Mocha</p>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
+<span class="l">2: </span>
+<span class="l">3: </span>
+<span class="l">4: </span>
+<span class="l">5: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip"><code lang="text">fable samples/node/console/tests.fsx -m commonjs
+    --outDir out --plugins build/plugins/Fable.Plugins.NUnit.dll
+
+node build/tests/node_modules/mocha/bin/mocha
+    samples/node/console/out/tests.js
+</code></pre></td></tr></table>
+</section>
+</section>
+<section >
+<section data-transition="concave">
+<h3>INTERACTING WITH JS</h3>
+<p>We don't want to just intrude the JS ecosytem,
+we want to take advantage of its full potential.</p>
+<p class="fragment fade-in">
+Because .NET community is <strong>great</strong>
+</p>
+<p class="fragment fade-in">
+F# community is <strong>fantastic</strong>
+</p>
+<p class="fragment fade-in">
+JS community is...
+</p>
+<p class="fragment fade-in" style="font-size: 6em">
+<strong>HUGE</strong>
+</p>
+<p class="fragment fade-in">
+...and amazing too :)
+</p>
+</section>
+<section data-transition="concave">
+<h3>DYNAMIC PROGRAMMING WITH FABLE</h3>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l"> 1: </span>
+<span class="l"> 2: </span>
+<span class="l"> 3: </span>
+<span class="l"> 4: </span>
+<span class="l"> 5: </span>
+<span class="l"> 6: </span>
+<span class="l"> 7: </span>
+<span class="l"> 8: </span>
+<span class="l"> 9: </span>
+<span class="l">10: </span>
+<span class="l">11: </span>
+<span class="l">12: </span>
+<span class="l">13: </span>
+<span class="l">14: </span>
+<span class="l">15: </span>
+<span class="l">16: </span>
+<span class="l">17: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="k">open</span> <span class="i">Fable</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs6', 11)" onmouseover="showTip(event, 'fs6', 11)" class="i">Core</span>
+
+<span onmouseout="hideTip(event, 'fs7', 12)" onmouseover="showTip(event, 'fs7', 12)" class="f">printfn</span> <span class="s">&quot;Value: </span><span class="pf">%O</span><span class="s">&quot;</span> <span class="i">jsObj</span><span class="o">?</span><span class="i">myProp</span>    <span class="c">// Property access</span>
+
+<span class="i">jsObj</span><span class="o">?</span><span class="i">myProp</span> <span class="o">&lt;-</span> <span class="n">5</span>                   <span class="c">// Assignment</span>
+
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs8', 13)" onmouseover="showTip(event, 'fs8', 13)" class="i">x</span> <span class="o">=</span> <span class="i">jsObj</span><span class="o">?</span><span class="i">myMethod</span> <span class="o">$</span> (<span class="n">1</span>, <span class="n">2</span>)     <span class="c">// Application</span>
+
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs9', 14)" onmouseover="showTip(event, 'fs9', 14)" class="i">y</span> <span class="o">=</span> <span class="i">createNew</span> <span class="i">jsCons</span> (<span class="n">1</span>, <span class="n">2</span>)     <span class="c">// Apply `new` keyword</span>
+
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs10', 15)" onmouseover="showTip(event, 'fs10', 15)" class="i">data</span> <span class="o">=</span>                          <span class="c">// JS literal object</span>
+    <span class="i">createObj</span> [
+        <span class="s">&quot;todos&quot;</span> <span class="o">==&gt;</span> <span class="i">Storage</span><span class="o">.</span><span class="i">fetch</span>()
+        <span class="s">&quot;newTodo&quot;</span> <span class="o">==&gt;</span> <span class="s">&quot;&quot;</span>
+        <span class="s">&quot;editedTodo&quot;</span> <span class="o">==&gt;</span> <span onmouseout="hideTip(event, 'fs11', 16)" onmouseover="showTip(event, 'fs11', 16)" class="i">None</span>
+        <span class="s">&quot;visibility&quot;</span> <span class="o">==&gt;</span> <span class="s">&quot;all&quot;</span>
+    ]
+</code></pre></td>
+</tr>
+</table>
+</section>
+<section data-transition="concave">
+<h3>JS MACROS</h3>
+<p>Use <code>Emit</code> attribute to emit JS code directly</p>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l"> 1: </span>
+<span class="l"> 2: </span>
+<span class="l"> 3: </span>
+<span class="l"> 4: </span>
+<span class="l"> 5: </span>
+<span class="l"> 6: </span>
+<span class="l"> 7: </span>
+<span class="l"> 8: </span>
+<span class="l"> 9: </span>
+<span class="l">10: </span>
+<span class="l">11: </span>
+<span class="l">12: </span>
+<span class="l">13: </span>
+<span class="l">14: </span>
+<span class="l">15: </span>
+<span class="l">16: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="k">open</span> <span class="i">Fable</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs6', 17)" onmouseover="showTip(event, 'fs6', 17)" class="i">Core</span>
+
+[&lt;<span class="i">Emit</span>(<span class="s">&quot;$0 + $1&quot;</span>)&gt;]
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs12', 18)" onmouseover="showTip(event, 'fs12', 18)" class="f">add</span> (<span onmouseout="hideTip(event, 'fs13', 19)" onmouseover="showTip(event, 'fs13', 19)" class="i">x</span><span class="o">:</span> <span onmouseout="hideTip(event, 'fs14', 20)" onmouseover="showTip(event, 'fs14', 20)" class="t">int</span>) (<span onmouseout="hideTip(event, 'fs15', 21)" onmouseover="showTip(event, 'fs15', 21)" class="i">y</span><span class="o">:</span> <span onmouseout="hideTip(event, 'fs16', 22)" onmouseover="showTip(event, 'fs16', 22)" class="t">string</span>)<span class="o">:</span> <span onmouseout="hideTip(event, 'fs17', 23)" onmouseover="showTip(event, 'fs17', 23)" class="t">float</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs18', 24)" onmouseover="showTip(event, 'fs18', 24)" class="f">failwith</span> <span class="s">&quot;JS only&quot;</span>
+
+<span class="k">type</span> <span onmouseout="hideTip(event, 'fs19', 25)" onmouseover="showTip(event, 'fs19', 25)" class="t">Test</span>() <span class="o">=</span>
+    <span class="c">// Rest arguments</span>
+    [&lt;<span class="i">Emit</span>(<span class="s">&quot;$0($1...)&quot;</span>)&gt;]
+    <span class="k">member</span> <span class="i">__</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs20', 26)" onmouseover="showTip(event, 'fs20', 26)" class="f">Invoke</span>([&lt;<span class="i">ParamArray</span>&gt;] <span onmouseout="hideTip(event, 'fs21', 27)" onmouseover="showTip(event, 'fs21', 27)" class="i">args</span><span class="o">:</span> <span onmouseout="hideTip(event, 'fs14', 28)" onmouseover="showTip(event, 'fs14', 28)" class="t">int</span>[])<span class="o">:</span> <span onmouseout="hideTip(event, 'fs22', 29)" onmouseover="showTip(event, 'fs22', 29)" class="t">obj</span> <span class="o">=</span>
+        <span onmouseout="hideTip(event, 'fs18', 30)" onmouseover="showTip(event, 'fs18', 30)" class="f">failwith</span> <span class="s">&quot;JS only&quot;</span>
+
+    <span class="c">// Syntax conditioned to optional parameter</span>
+    [&lt;<span class="i">Emit</span>(<span class="s">&quot;$0[$1]{{=$2}}&quot;</span>)&gt;]
+    <span class="k">member</span> <span onmouseout="hideTip(event, 'fs23', 31)" onmouseover="showTip(event, 'fs23', 31)" class="i">__</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs24', 32)" onmouseover="showTip(event, 'fs24', 32)" class="i">Item</span>
+        <span class="k">with</span> <span class="i">get</span>()<span class="o">:</span> <span onmouseout="hideTip(event, 'fs17', 33)" onmouseover="showTip(event, 'fs17', 33)" class="t">float</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs18', 34)" onmouseover="showTip(event, 'fs18', 34)" class="f">failwith</span> <span class="s">&quot;JS only&quot;</span>
+        <span class="k">and</span> <span onmouseout="hideTip(event, 'fs25', 35)" onmouseover="showTip(event, 'fs25', 35)" class="i">set</span>(<span onmouseout="hideTip(event, 'fs26', 36)" onmouseover="showTip(event, 'fs26', 36)" class="i">v</span><span class="o">:</span> <span onmouseout="hideTip(event, 'fs17', 37)" onmouseover="showTip(event, 'fs17', 37)" class="t">float</span>)<span class="o">:</span> <span onmouseout="hideTip(event, 'fs27', 38)" onmouseover="showTip(event, 'fs27', 38)" class="t">unit</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs18', 39)" onmouseover="showTip(event, 'fs18', 39)" class="f">failwith</span> <span class="s">&quot;JS only&quot;</span>
+</code></pre></td>
+</tr>
+</table>
+</section>
+<section data-transition="concave">
+<h3>FOREIGN INTERFACES</h3>
+<p>Define foreign interfaces easily to get the benefits of static checking and Intellisense</p>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
+<span class="l">2: </span>
+<span class="l">3: </span>
+<span class="l">4: </span>
+<span class="l">5: </span>
+<span class="l">6: </span>
+<span class="l">7: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp">[&lt;<span class="i">Import</span>(<span class="s">&quot;*&quot;</span>,<span class="s">&quot;string_decoder&quot;</span>)&gt;]
+<span class="k">module</span> <span onmouseout="hideTip(event, 'fs28', 40)" onmouseover="showTip(event, 'fs28', 40)" class="t">string_decoder</span> <span class="o">=</span>
+    <span class="k">type</span> <span onmouseout="hideTip(event, 'fs29', 41)" onmouseover="showTip(event, 'fs29', 41)" class="t">NodeStringDecoder</span> <span class="o">=</span>
+        <span class="k">abstract</span> <span onmouseout="hideTip(event, 'fs30', 42)" onmouseover="showTip(event, 'fs30', 42)" class="f">write</span><span class="o">:</span> <span class="i">buffer</span><span class="o">:</span> <span class="i">Buffer</span> <span class="k">-&gt;</span> <span class="i">strings</span>
+        <span class="k">abstract</span> <span onmouseout="hideTip(event, 'fs31', 43)" onmouseover="showTip(event, 'fs31', 43)" class="f">detectIncompleteChar</span><span class="o">:</span> <span class="i">buffer</span><span class="o">:</span> <span class="i">Buffer</span> <span class="k">-&gt;</span> <span onmouseout="hideTip(event, 'fs17', 44)" onmouseover="showTip(event, 'fs17', 44)" class="t">float</span>
+
+    <span class="k">let</span> <span onmouseout="hideTip(event, 'fs32', 45)" onmouseover="showTip(event, 'fs32', 45)" class="i">StringDecoder</span><span class="o">:</span> <span onmouseout="hideTip(event, 'fs29', 46)" onmouseover="showTip(event, 'fs29', 46)" class="t">NodeStringDecoder</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs18', 47)" onmouseover="showTip(event, 'fs18', 47)" class="f">failwith</span> <span class="s">&quot;JS only&quot;</span>
+</code></pre></td>
+</tr>
+</table>
+<p>Use <code>Import</code> attribute to <a href="https://github.com/fsprojects/Fable/blob/master/docs/interacting.md#import-attribute">import external JS modules in ES2015 fashion</a></p>
+</section>
+<section class="line-height-150" data-transition="concave">
+<ul>
+<li>Native JS, Browser and Node interfaces are included in <a href="https://www.npmjs.com/package/fable-core">fable-core</a></li>
+<li>More definitions can be found in npm: <a href="https://www.npmjs.com/search?q=fable-import">fable-import-xxx</a></li>
+<li>A TypeScript parser (still in development) is also available: <a href="https://www.npmjs.com/package/ts2fable">ts2fable</a></li>
+</ul>
+</section>
+</section>
+<section >
+<section >
+<h3>DEMO</h3>
+<p>Node static server</p>
+<p><a href="https://github.com/fsprojects/Fable/blob/master/samples/node/server/index.fsx">https://github.com/fsprojects/Fable/blob/master/samples/node/server/index.fsx</a></p>
+</section>
+<section >
+<h3>DEMO</h3>
+<p>Debugging a <a href="https://github.com/fsprojects/Fable/blob/master/samples/node/express/index.fsx">node express server</a> with <a href="http://code.visualstudio.com/docs/editor/debugging">VS Code</a></p>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
+<span class="l">2: </span>
+<span class="l">3: </span>
+<span class="l">4: </span>
+<span class="l">5: </span>
+<span class="l">6: </span>
+<span class="l">7: </span>
+<span class="l">8: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip"><code lang="json">{
+    "name": "Launch Node",
+    "type": "node",
+    "request": "launch",
+    "program": "${workspaceRoot}/samples/node/express/index.fsx",
+    "outDir": "${workspaceRoot}/samples/node/express/out",
+    "sourceMaps": true,
+}
+</code></pre></td></tr></table>
+</section>
+<section >
+<h3>DEMO</h3>
+<p>Front end applications with JS frameworks: <a href="http://vuejs.org">Vue</a>, <a href="http://facebook.github.io/react/">React</a></p>
+<p><a href="https://github.com/fsprojects/Fable/tree/master/samples/browser/todomvc">https://github.com/fsprojects/Fable/tree/master/samples/browser/todomvc</a></p>
+<p><a href="https://github.com/fsprojects/Fable/tree/master/samples/browser/react">https://github.com/fsprojects/Fable/tree/master/samples/browser/react</a></p>
+</section>
+</section>
+<section >
+<h3>FABLE IN NUMBERS</h3>
+<ul>
+<li>Currently in beta: <a href="https://www.npmjs.com/package/fable-compiler">v0.2.2</a> (soon v1.0.0)</li>
+<li>&gt;600 <a href="https://github.com/fsprojects/Fable/tree/master/src/tests">unit tests</a></li>
+<li>&gt;800 lines of <a href="https://github.com/fsprojects/Fable/tree/master/docs">documentation</a></li>
+<li>&gt;4500 lines of code of <a href="https://github.com/fsprojects/Fable/tree/master/src/fable-fsharp">compiler core</a></li>
+<li><a href="https://github.com/fsprojects/Fable/graphs/contributors">4 months of development</a> (but building on FunScript experience)</li>
+<li>5th place after 2 months in <a href="http://fsprojects.github.io">fsprojects</a> (Github stars)</li>
+<li>&gt;300 commits, &gt;170 stars, 12 contributors</li>
+<li>6 packages in <a href="https://www.npmjs.com/~alfonsogarciacaro">npm</a>: compiler, core lib, bindings, TypeScript parser</li>
+<li>2500 downloads last month</li>
+<li>10,000 users 2016 Q4 (1)</li>
+<li>1,000,000 downloads 2016 Q4 (1)</li>
+</ul>
+<blockquote>
+<p>(1) CMUF: Completely made up figures</p>
+</blockquote>
+</section>
+<section >
+<h3>SO WITH F# NOW YOU CAN DO...</h3>
+<ul>
+<li>Front-end apps</li>
+<li>Node apps</li>
+<li>Native iOS &amp; Android apps with Xamarin</li>
+<li>Mobile apps with Apache Cordova or React Native</li>
+<li>Universal Windows Platform (soon)</li>
+<li>Cross-platform desktop apps (Electron, .NET/Mono)</li>
+<li>Server programming: Suave, ASP.NET</li>
+<li>GPU programming</li>
+<li>Functional programming on .NET</li>
+</ul>
+</section>
+<section >
+<h3>Thanks for listening!</h3>
+<p>Questions?</p>
+<p><a href="https://github.com/fsprojects/Fable">https://github.com/fsprojects/Fable</a></p>
+<p>@alfonsogcnunez</p>
+</section>
+
+
+        </div>
+    </div>
+    <script src="lib/js/head.min.js"></script>
+    <script src="js/reveal.js"></script>
+    <script>
+        // Add the nohighlight class and data-noescape attribute to code elements that have already been formatted by FSharp.Formatting
+        $('pre.highlighted code').addClass('nohighlight').attr('data-noescape', '');
+
+        // Full list of configuration options available here:
+        // https://github.com/hakimel/reveal.js#configuration
+        Reveal.initialize({
+            controls: true,
+            progress: true,
+            history: true,
+            center: true,
+
+            transition: 'default', // default/cube/page/concave/zoom/linear/fade/none
+
+            // Parallax scrolling
+            // parallaxBackgroundImage: 'https://s3.amazonaws.com/hakim-static/reveal-js/reveal-parallax-1.jpg',
+            // parallaxBackgroundSize: '2100px 900px',
+
+            // Optional libraries used to extend on reveal.js
+            dependencies: [
+                { src: 'lib/js/classList.js', condition: function () { return !document.body.classList; } },
+                { src: 'plugin/markdown/marked.js', condition: function () { return !!document.querySelector('[data-markdown]'); } },
+                { src: 'plugin/markdown/markdown.js', condition: function () { return !!document.querySelector('[data-markdown]'); } },
+                { src: 'plugin/highlight/highlight.js', async: true, callback: function () { hljs.initHighlightingOnLoad(); } },
+                { src: 'plugin/zoom-js/zoom.js', async: true, condition: function () { return !!document.body.classList; } },
+                { src: 'plugin/notes/notes.js', async: true, condition: function () { return !!document.body.classList; } }
+            ]
+        });
+
+    </script>
+</body>
+</html>
+

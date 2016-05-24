@@ -8,7 +8,7 @@
 ***
 
 
-### Fable: the what, the why and the how
+### Fable: the what, the why, the how and the where
 Bringing together the F# and JS worlds
 
 <div>
@@ -52,33 +52,32 @@ Give it a try!
 
 ### **WHAT** IS FABLE?
 
-- F# to JS compiler
-- Source maps
-- [Plugin system](https://github.com/fsprojects/Fable/blob/master/docs/plugins.md)
-- Framework agnostic
+- Plain F# to JS compiler
 - Batteries charged: F# core library and some .NET BCL
 
 
 ---
 
 
-### NOT AND AD-HOC LANGUAGE
+### WHAT FABLE ALLOWS YOU TO DO?
 
-- F# is a general purpose language mainly targeting .NET
-- Not crafted specifically to compile to JS, like Dart, TypeScript or Elm
-- Allows you to reuse your knowledge: **semantics**, **tooling** and **APIs**
+- Web front-end apps
+- Node apps
+- Cross-platform desktop apps (Electron, .NET/Mono)
+- Mobile apps with Apache Cordova or React Native
 
 
 ---
 
 
-### BUT BEHAVES LIKE ONE
+### PHILOSOPHY
 
 - No runtime
-- Compiles to clean JS code
-- Great interoperability with JS libraries
-- Adheres to standard practices and workflows
-- Compatible with JS developments tools: [Babel](http://babeljs.io), [npm](https://www.npmjs.com), [WebPack](https://webpack.github.io)
+- Framework agnostic
+- Generate clean JS code
+- Keep file structure
+- Adhere to standard JS practices: import/exports, iterables...
+- Take advantage of JS development tools: bundling, hot reloading, minimification, tree shaking...
 
 
 ***
@@ -86,67 +85,30 @@ Give it a try!
 
 ### **WHY** FABLE?
 
-#### JavaScript is evolving at rapid pace, do we need a new language?
+#### How does it compare to other F#>JS compilers?
+
+- WebSharper: Full web development framework
+- FunScript: Plain F# to JS compiler
 
 <p class="fragment fade-in">
-ES2015 adds many great features and JS development tools keep getting better and better
+WebSharper plays in another league so let's focus on improvements over FunScript.
 </p>
 
-<div class="fragment fade-in">
-<p>But there are still things some programmers miss:</p>
-<ul>
-<li>Static typing</li>
-<li>Great editor support out of the box</li>
-<li>Comprehensive core library</li>
-</div>
-
 <p class="fragment fade-in">
-F# brings this and a couple more features...
+<strong>Disclaimer:</strong> Many of the things that make Fable possible weren't available
+when FunScript was developed (ES6, F# Compiler Services, Babel).
 </p>
 
 
 ---
-- class: line-height-150
 
 
-- REPL
-- Intellisense
-- Type inference
-- Custom operators
-- Whitespace indentation (optional)
-- Expression based programming
-- Pattern Matching
-- Active Patterns
-- Immutable by default
-- Partial application / Pipelines
-- Functional core library (LINQ on steroids!)
-
----
-- class: line-height-150
-
-
-- Observables
-- String formatting
-- Structural comparison
-- List, array and iterable comprehensions
-- Generics, unions, records and tuples
-- Type aliases
-- DSL embedded in the language
-- Typed-stateless Async programming
-
----
-- class: line-height-150
-
-
-- OOP: Inheritance, interfaces, abstract classes
-- Custom computation expressions
-- Overloading, type extensions
-- Type providers (coming to Fable)
-- Units of measure
-- Circular dependency restriction
-- Compiler directives
-- An excuse for being condescendant with non-functional programming
-- Don Syme retweeting you!
+- F# compiler services vs quotations: no bytecode compilation, _incremental_ builds
+- File import/exports vs _program soup_
+- Optimizations: pipes, typed arrays
+- More flexible JS interaction
+- Source maps: F# code debugging
+- [Plugin system](https://github.com/fsprojects/Fable/blob/master/docs/plugins.md)
 
 <p class="fragment fade-in">
 And the killer feature...
@@ -171,6 +133,40 @@ And the killer feature...
     sprintf "%10.1f" 3.14                 // "       3.1"
     sprintf "%-10.1f" 3.14                // "3.1       "
     sprintf "%+010i" 22                   // "+000000022"
+
+***
+
+
+#### PIPING: NOT OPTIMIZED
+
+![Piping: not optimized](images/optimize1.png)
+
+
+---
+
+
+#### PIPING: OPTIMIZED
+
+```fsharp
+[1; 2; 3; 4; 5]
+|> Seq.map ((*) 2)
+|> Seq.take 4
+|> Seq.filter ((%) 2 >> (=) 0)
+|> Seq.toArray
+```
+
+```js
+var _fableCore = require("fable-core");
+
+Int32Array.from(_fableCore.Seq.filter(function ($var1) {
+return 0 === 2 % $var1;
+}, _fableCore.Seq.take(4, _fableCore.Seq.map(function () {
+var x;
+return x = 2, function (y) {
+    return x * y;
+};
+}(), _fableCore.List.ofArray([1, 2, 3, 4, 5])))));
+```
 
 ***
 - data-transition:zoom
@@ -423,6 +419,30 @@ Use `Emit` attribute to emit JS code directly
 - data-transition:concave
 
 
+### SPECIAL ATTRIBUTES
+
+- Erased Union Types
+- String Literal Types
+- Key-Value Lists
+
+```fsharp
+[<Erase>]
+type MyErasedType =
+    | String of string | Number of int
+
+[<StringEnum>]
+type MyStrings =
+    | Vertical | Horizontal
+
+[<KeyValueList>]
+type MyOptions =
+    | Flag1 | Name of string | [<CompiledName("QTY")>] QTY of int
+```
+
+---
+- data-transition:concave
+
+
 ### FOREIGN INTERFACES
 
 Define foreign interfaces easily to get the benefits of static checking and Intellisense
@@ -488,15 +508,27 @@ https://github.com/fsprojects/Fable/tree/master/samples/browser/react
 ***
 
 
+### WHERE IS FABLE HEADING? ROADMAP
+
+- Release v1.0.0
+- Improve TypeScript parser
+- Bring back online REPL
+- Integration with Ionide
+- Integration with FSLab
+- More elaborated examples, tutorials
+- Target TypeScript 2.0 in future releases?
+
+
+***
+
+
 ### FABLE IN NUMBERS
 
-- Currently in beta: [v0.2.2](https://www.npmjs.com/package/fable-compiler) (soon v1.0.0)
+- Currently in beta: [v0.2.10](https://www.npmjs.com/package/fable-compiler) (soon v1.0.0)
 - >600 [unit tests](https://github.com/fsprojects/Fable/tree/master/src/tests)
 - >800 lines of [documentation](https://github.com/fsprojects/Fable/tree/master/docs)
 - >4500 lines of code of [compiler core](https://github.com/fsprojects/Fable/tree/master/src/fable-fsharp)
-- [4 months of development](https://github.com/fsprojects/Fable/graphs/contributors) (but building on FunScript experience)
-- 5th place after 2 months in [fsprojects](http://fsprojects.github.io) (Github stars)
-- >300 commits, >170 stars, 12 contributors
+- >300 commits, >200 stars, 12 contributors
 - 6 packages in [npm](https://www.npmjs.com/~alfonsogarciacaro): compiler, core lib, bindings, TypeScript parser
 - 2500 downloads last month
 - 10,000 users 2016 Q4 (1)
@@ -504,37 +536,6 @@ https://github.com/fsprojects/Fable/tree/master/samples/browser/react
 
 > (1) CMUF: Completely made up figures
 
-
-***
-
-
-### SO WITH F# NOW YOU CAN DO...
-
-- Front-end apps
-- Node apps
-- Native iOS & Android apps with Xamarin
-- Mobile apps with Apache Cordova or React Native
-- Universal Windows Platform (soon)
-- Cross-platform desktop apps (Electron, .NET/Mono)
-- Server programming: Suave, ASP.NET
-- GPU programming
-- Functional programming on .NET
-
-
-***
-
-
-And the final appeal...
-
-(In case someone from Redmond is in the room)
-
-<h4 class="fragment fade-in">
-MICROSOFT, don't make the same mistake as with Xamarin
-</h4>
-
-<h3 class="fragment fade-in">
-Buy Fable now and save a few million bucks ;)
-</h3>
 
 
 ***

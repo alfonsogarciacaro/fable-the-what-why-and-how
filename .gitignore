@@ -3,7 +3,7 @@
 
 .DS_Store
 output/
-.paket/
+.paket/paket.exe
 
 # User-specific files
 *.suo
